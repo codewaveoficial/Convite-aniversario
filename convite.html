@@ -82,17 +82,28 @@
         </div>
       </div>
 
-      <div id="modal-presentes" class="modal hidden">
-        <div class="modal-content">
-          <h3>Sugestões de presentes</h3>
-          <ul>
-            <li>Camisa do Mengão (P/M/L)</li>
-            <li>Vouchers de loja esportiva</li>
-            <li>Acessórios: boné, cachecol, caneca temática</li>
-          </ul>
-          <button class="btn-close">Fechar</button>
-        </div>
-      </div>
+      <div id="modal-location" class="modal hidden" aria-labelledby="location-title">
+  <div class="modal-content">
+    <h3 id="location-title">📍 Local do Evento</h3>
+
+    <p style="margin: 12px 0; line-height: 1.5;">
+      Rua dos Bem-Te-Vis, 440<br>
+      Morada de Laranjeiras<br>
+      Serra – ES<br>
+      CEP 29166-767
+    </p>
+
+    <div class="action-buttons" style="justify-content:center; gap:12px;">
+      <button id="btn-open-map" class="btn-primary small">
+        Ver no mapa
+      </button>
+      <button class="btn-close btn-secondary small">
+        Fechar
+      </button>
+    </div>
+  </div>
+</div>
+
 
       <!-- Smoke effect rising from the bottom of the invite (red + black) -->
       <div class="smoke-container" aria-hidden="true">

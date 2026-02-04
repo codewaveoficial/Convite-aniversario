@@ -1,21 +1,29 @@
 // convite.js - controla botões e modais na página do convite
 document.addEventListener('DOMContentLoaded', function () {
   const btnLocation = document.getElementById('btn-location');
+  const modalLocation = document.getElementById('modal-location');
+  const btnOpenMap = document.getElementById('btn-open-map');
   const btnChurrasco = document.getElementById('btn-churrasco');
-  const btnPresentes = document.getElementById('btn-presentes');
   const modalChurrasco = document.getElementById('modal-churrasco');
-  const modalPresentes = document.getElementById('modal-presentes');
+  
 
-  if (btnLocation) {
-    btnLocation.addEventListener('click', function () {
-      // abre o Google Maps com o endereço especificado
-      const address = encodeURIComponent('Rua dos Bem-Te-Vis 440, Morada de Laranjeiras, Serra, ES, 29166-767');
-      window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank');
-    });
-  }
+  if (btnLocation && modalLocation) {
+  btnLocation.addEventListener('click', () => openModal(modalLocation));
+}
+
+if (btnOpenMap) {
+  btnOpenMap.addEventListener('click', () => {
+    const address = encodeURIComponent(
+      'Rua dos Bem-Te-Vis 440, Morada de Laranjeiras, Serra, ES, 29166-767'
+    );
+    window.open(
+      `https://www.google.com/maps/search/?api=1&query=${address}`,
+      '_blank'
+    );
+  });
+}
 
   if (btnChurrasco) btnChurrasco.addEventListener('click', () => openModal(modalChurrasco));
-  if (btnPresentes) btnPresentes.addEventListener('click', () => openModal(modalPresentes));
 
   // Modal management: open/close with focus trapping and background interaction block
   let _openModal = null;
@@ -190,22 +198,25 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(() => {
       isPlaying = true;
       setButton(true);
+      btn.classList.remove('hidden');
     })
     .catch(() => {
       // autoplay bloqueado (mobile padrão)
       btn.classList.remove('hidden');
     });
 
-  /* ===== PRIMEIRA INTERAÇÃO DESBLOQUEIA ===== */
   const unlockAudio = () => {
-    if (!isPlaying) {
-      audio.play().catch(() => {});
+  if (isPlaying) return;
+
+  audio.play()
+    .then(() => {
       isPlaying = true;
       setButton(true);
-    }
+    })
+    .catch(() => {});
 
-    document.removeEventListener('click', unlockAudio);
-    document.removeEventListener('touchstart', unlockAudio);
+  document.removeEventListener('click', unlockAudio);
+  document.removeEventListener('touchstart', unlockAudio);
   };
 
   document.addEventListener('click', unlockAudio);

@@ -108,7 +108,7 @@ html.dark body{ background-color: var(--bg-dark); color: #fff; }
 .modal.hidden{ display:none }
 .modal-content{ background:#fff; color:#111; padding:18px; border-radius:10px; width: min(520px, 92%); box-shadow: 0 10px 40px rgba(0,0,0,0.5) }
 .modal-content h3{ margin-top:0 }
-.btn-close{ margin-top:12px; padding:8px 12px; background: #eee; border-radius:8px }
+.btn-close{ padding:8px 12px; background: #eee; border-radius:8px }
 
 /* Nome central no campo */
 .center-name{
@@ -177,9 +177,6 @@ html.dark body{ background-color: var(--bg-dark); color: #fff; }
   font-weight: 1200;
   z-index: 24;
   padding: 6px 14px;
-  background: rgba(0,0,0,0.28);
-  border-radius: 6px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
 }
 .center-time{
   font-size: clamp(28px, 2.8vw, 38px);
@@ -550,4 +547,12 @@ letter-spacing: 8px;
 
 .index-sound-toggle.active {
   background: linear-gradient(90deg, #ec1313, #c11212);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 🔑 alinhamento vertical */
+  gap: 12px;
+  margin-top: 20px;
 }

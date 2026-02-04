@@ -10,50 +10,54 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ===== ÁUDIO DO INDEX ===== */
-
   const audio = document.getElementById('heart-audio');
   const btnSound = document.getElementById('btn-heart');
 
   if (!audio || !btnSound) return;
 
   let isPlaying = false;
+  let unlocked = false;
 
-  /* ===== TENTATIVA DE AUTOPLAY ===== */
-  audio.volume = 0.6;
+  audio.volume = 1;
+  audio.muted = true; // 🔑 truque essencial
 
+  /* ===== AUTOPLAY MUTED ===== */
   audio.play()
     .then(() => {
-      // autoplay permitido 🎉
       isPlaying = true;
-      btnSound.textContent = '🔇';
-      btnSound.classList.add('active');
+      btnSound.textContent = '🔈'; // ainda mutado
     })
     .catch(() => {
-      // autoplay bloqueado (normal em mobile)
-      // botão fica visível aguardando interação
+      // bloqueado — normal
     });
 
-  /* ===== PRIMEIRA INTERAÇÃO EM QUALQUER TOQUE ===== */
+  /* ===== DESBLOQUEAR ÁUDIO NA PRIMEIRA INTERAÇÃO ===== */
   const unlockAudio = () => {
-    if (!isPlaying) {
-      audio.play().catch(() => {});
-      isPlaying = true;
-      btnSound.textContent = '🔇';
-      btnSound.classList.add('active');
-    }
+    if (unlocked) return;
 
-    document.removeEventListener('click', unlockAudio);
+    audio.muted = false;
+    audio.play().catch(() => {});
+    isPlaying = true;
+    unlocked = true;
+
+    btnSound.textContent = '🔇';
+    btnSound.classList.add('active');
+
+    document.removeEventListener('pointerdown', unlockAudio);
     document.removeEventListener('touchstart', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
   };
 
-  document.addEventListener('click', unlockAudio);
+  document.addEventListener('pointerdown', unlockAudio);
   document.addEventListener('touchstart', unlockAudio);
+  document.addEventListener('keydown', unlockAudio);
 
   /* ===== BOTÃO MANUAL ===== */
   btnSound.addEventListener('click', (e) => {
     e.stopPropagation();
 
     if (!isPlaying) {
+      audio.muted = false;
       audio.play().catch(() => {});
       btnSound.textContent = '🔇';
       btnSound.classList.add('active');
