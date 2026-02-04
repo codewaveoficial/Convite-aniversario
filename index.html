@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec1313",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#181111",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<link rel="stylesheet" href="styles.css">
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-screen w-full flex-col items-center justify-between overflow-hidden bg-background-light dark:bg-background-dark">
+<!-- Background Patterns -->
+<div class="absolute inset-0 soccer-pattern pointer-events-none"></div>
+<div class="field-lines pointer-events-none"></div>
+<!-- Top App Bar (Hidden/Transparent for Splash feel) -->
+<div class="relative z-10 flex w-full items-center p-4 pb-2 justify-between">
+<div class="text-white flex size-12 shrink-0 items-center">
+<span class="material-symbols-outlined text-2xl opacity-0">arrow_back</span>
+</div>
+<h2 class="text-white/40 text-sm font-bold leading-tight tracking-[0.8em] flex-1 text-center pr-12 uppercase">Convite Exclusivo</h2>
+</div>
+<!-- Main Hero Section: The 3D Crest -->
+<div class="relative z-10 flex flex-col items-center justify-center w-full px-6">
+    <div class="relative group cursor-pointer">
+        <!-- Outer Glow -->
+        <div class="absolute -inset-8 bg-primary/20 blur-[60px] rounded-full"></div>
+
+        <!-- Crest Container (pulsa, sem hover) -->
+        <div class="relative w-64 h-64 md:w-80 md:h-80 drop-shadow-[0_25px_25px_rgba(0,0,0,0.5)] transition-transform duration-500">
+            <div class="w-full h-full bg-contain bg-center bg-no-repeat crest" data-alt="Escudo do Flamengo" style="background-image: url('escudo.png');"></div>
+        </div>
+
+        <!-- Subtle Lighting Effect -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 blur-md rounded-full"></div>
+    </div>
+
+    <div class="mt-6 text-center">
+        <h1 class="text-white tracking-tight text-[32px] font-extrabold leading-tight px-4 red-stroke">
+            O MENGÃO <span class="text-primary">TE CHAMA</span>
+        </h1>
+        <p class="text-white/60 text-base font-normal leading-normal pb-3 pt-2 px-4">
+            Prepare-se para uma convocação histórica.
+        </p>
+    </div>
+</div>
+<!-- Interaction Area -->
+<div class="relative z-10 w-full flex flex-col items-center pb-12">
+<div class="flex px-4 py-3 justify-center w-full max-w-xs">
+<button id="open-invite" class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 bg-primary text-white gap-3 shadow-[0_0_20px_rgba(236,19,19,0.4)] hover:bg-primary/90 transition-all active:scale-95">
+<span class="material-symbols-outlined text-2xl">mail</span>
+<span class="truncate text-base font-bold leading-normal tracking-[0.1em] uppercase">Toque para abrir</span>
+</button>
+</div>
+<div class="mt-4 flex flex-col items-center gap-1 opacity-40">
+</div>
+</div>
+<!-- Decorative Elements for "Envelope" feel -->
+<div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background-dark to-transparent pointer-events-none"></div>
+</div>
+<script src="script.js"></script>
+</body></html>

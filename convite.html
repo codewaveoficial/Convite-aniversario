@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Convite - Filipe</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="font-display stadium-page">
+  <div class="stadium-bg">
+    <div class="overlay"></div>
+    <div class="bg-confetti" aria-hidden="true">
+      <div class="piece p1"></div>
+      <div class="piece p2"></div>
+      <div class="piece p3"></div>
+      <div class="piece p4"></div>
+      <div class="piece p5"></div>
+      <div class="piece p6"></div>
+      <div class="piece p7"></div>
+      <div class="piece p8"></div>
+      <div class="piece p9"></div>
+      <div class="piece p10"></div>
+      <div class="piece p11"></div>
+      <div class="piece p12"></div>
+    </div>
+    <div class="bg-ball" aria-hidden="true"></div>
+    <audio id="crowd-audio" src="assets/torcida.mp3" loop preload="auto"></audio>
+    <audio id="anthem-audio" src="assets/hino%20flamengo.mp3" loop preload="auto"></audio>
+    <button id="btn-sound" class="sound-toggle" aria-label="Ativar som" title="Ativar som">🔈</button>
+    
+    <!-- decorative frame and elements -->
+    <div class="invite-frame">
+      <div class="confetti" aria-hidden="true"></div>
+      <div class="star s1" aria-hidden="true"></div>
+      <div class="star s2" aria-hidden="true"></div>
+      <div class="star s3" aria-hidden="true"></div>
+      <div class="star s4" aria-hidden="true"></div>
+      <div class="star s5" aria-hidden="true"></div>
+      <div class="star s6" aria-hidden="true"></div>
+      <div class="decor monogram" aria-hidden="true"></div>
+      <div class="decor trophy left" aria-hidden="true"></div>
+      <div class="decor trophy right" aria-hidden="true"></div>
+      <div class="decor shirt left" aria-hidden="true"></div>
+      <div class="decor shirt right" aria-hidden="true"></div>
+      <div class="decor ball left-bottom" aria-hidden="true"></div>
+      <div class="decor ball right-bottom" aria-hidden="true"></div>
+      <div class="decor logo" aria-hidden="true"></div>
+      <div class="stadium-lights" aria-hidden="true">
+        <div class="center-glow" aria-hidden="true"></div>
+      </div>
+
+      <main class="field-center">
+      <div class="top-invite red-stroke">CONVOCAÇÃO</div>
+
+      <div class="center-block compact">
+        <div class="center-name red-stroke">Filipe</div>
+        <div class="center-time">14/02 • 19:00</div>
+        <div class="action-buttons">
+          <button id="btn-location" class="btn-primary small">Localização</button>
+          <button id="btn-churrasco" class="btn-secondary small">Churrasco compartilhado</button>
+        </div>
+      </div>
+      </main>
+      
+      <!-- Modals -->
+      <div id="modal-churrasco" class="modal hidden">
+        <div class="modal-content">
+          <h3>Churrasco compartilhado — sugestões de carnes</h3>
+          <ul>
+            <li>
+              <strong>Opção 1 — Clássico do Churrasco:</strong>
+              Alcatra ou Contra-filé (≈ 500g), pão de alho e 1 bebida
+            </li>
+            <li>
+              <strong>Opção 2 — Completo & Raiz:</strong>
+              Alcatra ou Contra-filé (≈ 500g), linguiça e 1 bebida
+            </li>
+          </ul>
+          <button class="btn-close">Fechar</button>
+        </div>
+      </div>
+
+      <div id="modal-presentes" class="modal hidden">
+        <div class="modal-content">
+          <h3>Sugestões de presentes</h3>
+          <ul>
+            <li>Camisa do Mengão (P/M/L)</li>
+            <li>Vouchers de loja esportiva</li>
+            <li>Acessórios: boné, cachecol, caneca temática</li>
+          </ul>
+          <button class="btn-close">Fechar</button>
+        </div>
+      </div>
+
+      <!-- Smoke effect rising from the bottom of the invite (red + black) -->
+      <div class="smoke-container" aria-hidden="true">
+        <div class="smoke red" style="left:12%; width:260px; animation-duration:8s; animation-delay:0s"></div>
+        <div class="smoke black" style="left:24%; width:200px; animation-duration:7.2s; animation-delay:0.6s"></div>
+        <div class="smoke red" style="left:42%; width:300px; animation-duration:9s; animation-delay:1.2s; opacity:0.9"></div>
+        <div class="smoke black" style="left:58%; width:220px; animation-duration:7.6s; animation-delay:0.3s"></div>
+        <div class="smoke red" style="left:74%; width:240px; animation-duration:8.4s; animation-delay:0.9s"></div>
+        <div class="smoke black" style="left:86%; width:180px; animation-duration:7.8s; animation-delay:1.5s"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="convite.js"></script>
+</body>
+</html>

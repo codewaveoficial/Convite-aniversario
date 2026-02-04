@@ -1,0 +1,525 @@
+/* styles.css - estilos customizados para o convite */
+:root{
+  --primary: #ec1313;
+  --bg-light: #f8f6f6;
+  --bg-dark: #181111;
+}
+
+/* Background subtle pattern */
+.soccer-pattern{
+  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 24px 24px, 100% 2px;
+  background-position: 0 0, 0 0;
+  mix-blend-mode: overlay;
+  opacity: 0.7;
+}
+
+/* Field lines decorative element */
+.field-lines{
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.03) 2px, transparent 2px, transparent 40px);
+  mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+  opacity: 0.35;
+}
+
+/* Simple responsive tweaks for the crest image container */
+.group .w-64{ /* keep small helper in case Tailwind classes not present */
+  width: 16rem;
+  height: 16rem;
+}
+
+/* Small visual state when invitation is opened */
+.invitation-opened .w-64{ transform: scale(1.04); }
+
+/* Button focus style for accessibility */
+button:focus{ outline: 3px solid rgba(236,19,19,0.25); outline-offset: 4px; }
+
+/* Dark/light background fallbacks for environments without Tailwind */
+body{ background-color: var(--bg-light); color: #111; }
+html.dark body{ background-color: var(--bg-dark); color: #fff; }
+
+/* Utility: center content on very small screens */
+@media (max-width:420px){
+  .w-64{ width: 14rem; height: 14rem; }
+  h1{ font-size: 28px; }
+}
+
+/* Pulso do símbolo do Flamengo */
+.crest{
+  transform-origin: center;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+/* garantir que a imagem local funcione bem e que não mostre fundo */
+.crest{ background-color: transparent; background-size: contain; background-position: center; background-repeat: no-repeat; }
+
+@keyframes pulse{
+  0%{ transform: scale(1); filter: drop-shadow(0 0 0 rgba(236,19,19,0.0)); }
+  50%{ transform: scale(1.06); filter: drop-shadow(0 0 20px rgba(236,19,19,0.45)); }
+  100%{ transform: scale(1); filter: drop-shadow(0 0 0 rgba(236,19,19,0.0)); }
+}
+
+/* Página do convite (Maracanã) */
+.stadium-bg{
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* background image via pseudo-element so we can blur it without affecting content */
+.stadium-bg::before{
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url('background.jpg');
+  background-size:auto;
+  background-position: center 60%;
+  /* menos desfoque para manter detalhes */
+  filter: blur(2px) brightness(0.65);
+  transform: scale(1.02);
+  z-index: 0;
+}
+
+/* vinheta suave para escurecer bordas e destacar o centro */
+.stadium-bg::after{
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,0.45) 100%);
+  pointer-events: none;
+}
+.stadium-bg .overlay{
+  position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.42)); z-index: 2;
+}
+.top-banner{ position: absolute; top: 6vh; left: 0; right: 0; display:flex; justify-content:center; pointer-events:none; }
+.banner-text{
+  background: rgba(0,0,0,0.5);
+  color: #fff; padding: 8px 40px; font-weight:800; font-size:42px; letter-spacing:6px; border-radius:8px; transform: rotate(-2deg); box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+.field-center{ position: relative; z-index: 20; text-align:center; color: #fff; padding: 8vh 1rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; }
+.event-title{ font-size: 40px; font-weight:800; letter-spacing:3px; }
+.event-location{ font-size: 16px; opacity:0.95; margin-top:6px }
+.btn-primary{ background: var(--primary); color:#fff; padding:10px 18px; border-radius:10px; font-weight:700 }
+.btn-secondary{ background: rgb(0, 0, 0); color:#fff; padding:10px 14px; border-radius:10px }
+
+/* Modais simples */
+.modal{ position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.6); z-index:1400 }
+.modal.hidden{ display:none }
+.modal-content{ background:#fff; color:#111; padding:18px; border-radius:10px; width: min(520px, 92%); box-shadow: 0 10px 40px rgba(0,0,0,0.5) }
+.modal-content h3{ margin-top:0 }
+.btn-close{ margin-top:12px; padding:8px 12px; background: #eee; border-radius:8px }
+
+/* Nome central no campo */
+.center-name{
+  position: static;
+  z-index: 25;
+  font-size: clamp(36px, 8vw, 84px);
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  padding: 8px 24px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.18);
+  /* sombra mais pronunciada para destacar o texto */
+  box-shadow: 0 14px 40px rgba(0,0,0,0.7), 0 4px 12px rgba(0,0,0,0.5) inset;
+  text-shadow: 0 8px 30px rgba(0,0,0,0.7);
+}
+
+/* decorative dark red lines above and below the name */
+.center-name{
+  position: relative;
+}
+.center-name::before, .center-name::after{
+  content: '';
+  display:block;
+  height: 8px;
+  background: linear-gradient(90deg, rgba(120,10,10,0.95), rgba(180,20,20,1));
+  width: 120%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 6px;
+  opacity: 0.95;
+}
+.center-name::before{ top: -18px; box-shadow: 0 6px 18px rgba(0,0,0,0.6); }
+.center-name::after{ bottom: -18px; box-shadow: 0 6px 18px rgba(0,0,0,0.6); }
+
+/* bloco que contém nome e subtítulo, posicionado um pouco abaixo do centro */
+.center-block{
+  position: static;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.center-sub{
+  color: rgba(255,255,255,0.95);
+  font-size: clamp(12px, 2.2vw, 20px);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: none;
+  background: rgba(0,0,0,0.28);
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+
+/* Top invite heading */
+.top-invite{
+  font-size: clamp(16px, 2vw, 30px);
+  letter-spacing: 6px;
+  font-weight: 1200;
+  z-index: 24;
+  padding: 6px 14px;
+  background: rgba(0,0,0,0.28);
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+.center-time{
+  font-size: clamp(14px, 2.8vw, 28px);
+  font-weight: 800;
+  color: rgba(255,255,255,0.95);
+  letter-spacing: 2px;
+  text-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  margin-top: 18px; /* afastar a data da linha inferior */
+  padding: 6px 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  background: rgba(0,0,0,0.28);
+}
+
+.center-location{
+  font-size: clamp(12px, 1.8vw, 16px);
+  color: rgba(255,255,255,0.92);
+  margin-top: 8px;
+  letter-spacing: 0.6px;
+  background: rgba(0,0,0,0.12);
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+/* Invite frame and decorative elements */
+.invite-frame{
+  position: relative;
+  width: min(1100px, 94%);
+  margin: 0 auto;
+  padding: 4vh 3vw 6vh;
+  z-index: 22;
+  pointer-events: none;
+}
+
+.invite-frame::before{
+  content: '';
+  position: absolute; inset: 0; z-index: 19;
+  border-radius: 18px;
+  padding: 2px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.25));
+  -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7) inset;
+}
+
+.invite-frame::after{
+  content: '';
+  position: absolute; inset: 0; z-index: 18; border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+
+.decor{
+  position: absolute; z-index: 16; width: 140px; height: 140px; background-size: cover; background-position: center; opacity: 0.42; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45)); transform-origin: center; animation: floaty 6s ease-in-out infinite;
+  pointer-events: none;
+}
+.decor.shirt.left{ left: -20px; top: 6%; width: 140px; height: 140px; background-image: url('assets/shirt-left.png'); transform: rotate(-8deg); }
+.decor.shirt.right{ right: -20px; top: 6%; width: 140px; height: 140px; background-image: url('assets/shirt-right.png'); transform: rotate(8deg); }
+.decor.ball.left-bottom{ left: 4%; bottom: -36px; width: 90px; height: 90px; background-image: url('assets/ball-left.png'); transform: rotate(-10deg); }
+.decor.ball.right-bottom{ right: 4%; bottom: -36px; width: 90px; height: 90px; background-image: url('assets/ball-right.png'); transform: rotate(10deg); }
+
+/* small logo using local escudo.png */
+.decor.logo{ position: absolute; right: 6%; top: 18%; width: 72px; height: 72px; z-index: 24; background-image: url('escudo.png'); background-size: contain; background-position:center; background-repeat:no-repeat; opacity:0.98; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6)); }
+
+/* monogram and trophies */
+.decor.monogram{ position: absolute; left: 6%; top: 18%; width: 92px; height: 92px; z-index:24; background-image: url('assets/monograma.svg'); background-size: contain; background-position:center; background-repeat:no-repeat; opacity:0.98; filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6)); }
+.decor.trophy{ width: 88px; height: 88px; background-size: contain; background-repeat:no-repeat; opacity:0.95; filter: drop-shadow(0 10px 22px rgba(0,0,0,0.55)); }
+.decor.trophy.left{ left: 8%; bottom: 8%; transform: rotate(-6deg); background-image: url('assets/trophy-left.png'); }
+.decor.trophy.right{ right: 8%; bottom: 8%; transform: rotate(6deg); background-image: url('assets/trophy-right.png'); }
+
+/* stadium lights beam overlay — feixes focados ao centro */
+.stadium-lights{ position:absolute; inset:0; pointer-events:none; z-index:26; mix-blend-mode: overlay; }
+.stadium-lights::before, .stadium-lights::after{
+  content: '';
+  position: absolute; top: -6%; width: 60%; height: 220%; filter: blur(12px); opacity: 0.66; pointer-events:none;
+  background: linear-gradient(180deg, rgba(255,250,220,0.0) 0%, rgba(255,250,220,0.95) 36%, rgba(255,250,220,0.0) 100%);
+  transform-origin: center top;
+  mix-blend-mode: overlay;
+}
+.stadium-lights::before{ left: -24%; transform: rotate(-16deg) translateX(0); animation: beam-sweep 7.8s linear infinite; }
+.stadium-lights::after{ right: -2%; transform: rotate(12deg) translateX(0); animation: beam-sweep 8.8s linear infinite reverse; }
+
+/* brilho central radial para enfatizar o centro do convite */
+.stadium-lights .center-glow{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:90%; height:64%; background: radial-gradient(ellipse at center, rgba(255,250,210,0.44) 0%, rgba(255,245,200,0.22) 40%, rgba(255,245,200,0.0) 100%); filter: blur(14px); pointer-events:none; z-index:27; mix-blend-mode: overlay; opacity:1; }
+
+@keyframes beam-sweep{ 0%{ transform: rotate(-16deg) translateX(0); opacity:0.22 } 50%{ transform: rotate(-6deg) translateX(12%); opacity:0.68 } 100%{ transform: rotate(-16deg) translateX(0); opacity:0.22 } }
+
+.star{ position:absolute; z-index:23; width:12px; height:12px; background-image: url('assets/star.svg'); background-size: contain; background-position: center; background-repeat: no-repeat; box-shadow: 0 0 12px rgba(255,215,0,0.9), 0 0 28px rgba(255,140,0,0.14); pointer-events:none; opacity:0.98; transform-origin:center; animation: twinkle 3.6s ease-in-out infinite; mix-blend-mode: screen; }
+.star::after{ content: ''; position: absolute; left:50%; top:50%; transform: translate(-50%,-50%); width:140%; height:140%; background: radial-gradient(circle, rgba(255,240,160,0.66) 0%, rgba(255,200,80,0.0) 60%); filter: blur(6px); opacity:0.85; pointer-events:none; z-index:22; }
+.s1{ left:4%; top:8%; width:18px; height:18px; animation-delay:0s; }
+.s2{ right:4%; top:8%; width:18px; height:18px; animation-delay:0.4s; }
+.s3{ left:4%; bottom:12%; width:14px; height:14px; animation-delay:0.9s; }
+.s4{ right:4%; bottom:12%; width:14px; height:14px; animation-delay:1.2s; }
+.s5{ left:8%; top:50%; margin-top:-10px; width:14px; height:14px; animation-delay:0.2s; }
+.s6{ right:8%; top:50%; margin-top:-10px; width:14px; height:14px; animation-delay:1.6s; }
+
+@keyframes twinkle{ 0%{ transform: scale(0.9); opacity:0.6; filter: blur(0px); } 50%{ transform: scale(1.18) rotate(6deg); opacity:1; filter: drop-shadow(0 0 18px rgba(255,215,0,0.95)); } 100%{ transform: scale(0.95); opacity:0.7; } }
+
+/* confetti overlay (optional image) */
+.invite-frame::before{ background-image: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.22)); }
+.invite-frame::after{ box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+.invite-frame .confetti{ position:absolute; top:6%; left:0; right:0; height: 120%; background-image: url('assets/confetti.svg'); background-repeat: repeat; background-size: 140px; opacity:0.18; z-index:20; pointer-events:none; mix-blend-mode:screen; filter: blur(2px); }
+
+/* BACKGROUND confetti (red & black) falling behind/around the invite */
+.bg-confetti{ position:absolute; inset:0; pointer-events:none; z-index:21; overflow:hidden; }
+.bg-confetti .piece{ position:absolute; width:10px; height:14px; border-radius:2px; opacity:1; transform-origin:center; animation: confetti-fall linear infinite, confetti-sway ease-in-out infinite; box-shadow: 0 8px 18px rgba(0,0,0,0.32); mix-blend-mode: normal; filter: contrast(1.08) brightness(1.06); }
+.bg-confetti .piece::after{ content: ''; position: absolute; inset: 0; border-radius: 2px; pointer-events: none; background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02)); mix-blend-mode: overlay; opacity: 0.9; }
+.bg-confetti .piece.p1{ left:4%; top:-6%; background:#ec1313; animation-duration:6.6s; animation-delay:0s; transform: rotate(6deg); }
+.bg-confetti .piece.p2{ left:12%; top:-10%; background:#000; animation-duration:7.8s; animation-delay:0.6s; transform: rotate(-8deg); }
+.bg-confetti .piece.p3{ left:20%; top:-4%; background:#ec1313; animation-duration:6.2s; animation-delay:0.2s; transform: rotate(12deg); }
+.bg-confetti .piece.p4{ left:30%; top:-12%; background:#000; animation-duration:8.2s; animation-delay:0.8s; transform: rotate(-4deg); }
+.bg-confetti .piece.p5{ left:38%; top:-8%; background:#ec1313; animation-duration:6.9s; animation-delay:0.4s; transform: rotate(2deg); }
+.bg-confetti .piece.p6{ left:46%; top:-6%; background:#000; animation-duration:7.1s; animation-delay:0.1s; transform: rotate(-14deg); }
+.bg-confetti .piece.p7{ left:54%; top:-9%; background:#ec1313; animation-duration:6.7s; animation-delay:0.5s; transform: rotate(8deg); }
+.bg-confetti .piece.p8{ left:62%; top:-11%; background:#000; animation-duration:8.0s; animation-delay:0.9s; transform: rotate(-6deg); }
+.bg-confetti .piece.p9{ left:70%; top:-5%; background:#ec1313; animation-duration:7.3s; animation-delay:0.3s; transform: rotate(4deg); }
+.bg-confetti .piece.p10{ left:78%; top:-10%; background:#000; animation-duration:6.5s; animation-delay:0.7s; transform: rotate(-10deg); }
+.bg-confetti .piece.p11{ left:86%; top:-6%; background:#ec1313; animation-duration:7.6s; animation-delay:0.15s; transform: rotate(16deg); }
+.bg-confetti .piece.p12{ left:94%; top:-8%; background:#000; animation-duration:8.4s; animation-delay:0.45s; transform: rotate(-2deg); }
+
+@keyframes confetti-fall{ 0%{ transform: translateY(-20vh) rotate(var(--r,0deg)); opacity:1 } 60%{ opacity:1 } 100%{ transform: translateY(120vh) rotate(calc(var(--r,0deg) + 360deg)); opacity:0.95 } }
+@keyframes confetti-sway{ 0%{ transform: translateX(0) } 25%{ transform: translateX(12px) } 50%{ transform: translateX(0) } 75%{ transform: translateX(-12px) } 100%{ transform: translateX(0) } }
+
+/* Background soccer ball that walks across the scene under the invite */
+.bg-ball{ position:absolute; left:0; top:0; width:84px; height:84px; z-index:10; pointer-events:none; background-image: url('assets/bola.png'); background-size: contain; background-position:center; background-repeat:no-repeat; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.45)); will-change: transform; }
+
+/* botão de som (quando autoplay for bloqueado exibimos controle) */
+.sound-toggle{ position: fixed; right: 18px; bottom: 18px; z-index: 140; background: rgba(0,0,0,0.6); color:#fff; border: none; width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer; box-shadow: 0 6px 18px rgba(0,0,0,0.5); }
+.sound-toggle.hidden{ opacity:0; visibility:hidden }
+.sound-toggle.active{ background: linear-gradient(90deg,#ec1313,#c11212); }
+
+
+@keyframes floaty{
+  0%{ transform: translateY(0) rotate(0deg) }
+  50%{ transform: translateY(-8px) rotate(2deg) }
+  100%{ transform: translateY(0) rotate(0deg) }
+}
+
+/* small frame details: inner border */
+.invite-frame .field-center{ border-radius: 12px; padding-top: 3vh; padding-bottom: 3vh; background: linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.12)); }
+
+/* subtle ribbon under the name */
+.center-name{
+  padding: 12px 28px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.35), rgba(0,0,0,0.18));
+  border-radius: 12px;
+}
+
+/* ensure responsive scale for decorative elements */
+@media (max-width:800px){
+  .decor{ display:block; width:110px; height:110px }
+  .decor.shirt.left, .decor.shirt.right{ width:120px; height:120px; left: -18px; right:-18px }
+  .invite-frame{ padding: 3vh 4vw 5vh }
+}
+
+/* compact center block variant (single column, tighter) */
+.center-block.compact{ gap:6px }
+.center-time{
+  font-size: clamp(14px, 2.8vw, 28px);
+  font-weight: 800;
+  color: rgba(255,255,255,0.95);
+  letter-spacing: 2px;
+  text-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+
+/* action buttons */
+.action-buttons{ display:flex; gap:16px; margin-top:18px; pointer-events:auto; justify-content:center; align-items:center; }
+.action-buttons .small{ padding:10px 14px; font-weight:700; border-radius:10px }
+.btn-primary.small{ background: linear-gradient(90deg,var(--primary), #c11212); color:#fff; border:none }
+.btn-secondary.small{ background: rgba(0,0,0,0.8); color:#fff; border:1px solid rgba(255,255,255,0.06) }
+.btn-primary.small:hover, .btn-secondary.small:hover{ transform: translateY(-4px); transition: transform .18s ease }
+
+/* Responsividade específica para botões: empilhar em telas muito pequenas */
+@media (max-width:420px){
+  .action-buttons{ flex-direction:column; gap:10px; margin-top:12px }
+  .action-buttons button{ width: min(320px, 86vw); max-width:86vw }
+}
+
+/* ensure modals appear above everything */
+.modal{ z-index:1400 !important }
+
+.modal .modal-content{ pointer-events: auto }
+
+/* Smoke rising effect (red + black) from bottom of invite */
+.smoke-container{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -24px; /* slightly below the frame */
+  height: 380px;
+  pointer-events: none;
+  z-index: 1100; /* above invite but below modals */
+  overflow: visible;
+}
+.smoke{
+  position: absolute;
+  bottom: 0;
+  height: 240px;
+  border-radius: 50%;
+  opacity: 0;
+  transform-origin: center bottom;
+  filter: blur(6px);
+  pointer-events: none;
+  will-change: transform, opacity, filter;
+  mix-blend-mode: screen;
+}
+.smoke.red{
+  background: radial-gradient(circle at 50% 75%, rgba(236,19,19,0.32) 0%, rgba(236,19,19,0.12) 20%, rgba(236,19,19,0.06) 40%, rgba(255,255,255,0) 75%);
+}
+.smoke.black{
+  background: radial-gradient(circle at 50% 75%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.18) 22%, rgba(255,255,255,0) 70%);
+  mix-blend-mode: multiply;
+}
+
+@keyframes smoke-rise{
+  0%{ transform: translateY(8px) scale(0.9) rotate(0deg); opacity:0; filter: blur(6px) }
+  10%{ opacity:0.6 }
+  35%{ transform: translateY(-60px) scale(1.02) rotate(2deg); opacity:0.45; filter: blur(8px) }
+  65%{ transform: translateY(-160px) scale(1.15) rotate(-3deg); opacity:0.22; filter: blur(12px) }
+  90%{ transform: translateY(-280px) scale(1.28) rotate(-6deg); opacity:0.06; filter: blur(16px) }
+  100%{ transform: translateY(-340px) scale(1.34) rotate(-8deg); opacity:0 }
+}
+
+.smoke{ animation-name: smoke-rise; animation-timing-function: linear; animation-iteration-count: infinite }
+
+/* small responsive tweak so smoke doesn't overflow too much on narrow screens */
+@media (max-width:520px){
+  .smoke-container{ height: 320px; bottom: -16px }
+  .smoke{ height: 200px; filter: blur(8px) }
+}
+
+/* Red text with thick black border/stroke for impactful headings */
+.red-stroke{
+  color: var(--primary);
+  font-weight: 900;
+  /* menor contorno, ainda com destaque preto */
+  -webkit-text-stroke: 2px #000;
+  text-shadow: 0 2px 0 rgba(0,0,0,0.9), 0 6px 18px rgba(0,0,0,0.55);
+  /* usar fonte estilo 'collegiate' quando disponível */
+  font-family: 'Alfa Slab One', 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Responsive adjustments for headline sizes */
+.event-title.red-stroke{ font-size: clamp(28px, 4.6vw, 56px); -webkit-text-stroke-width: 2px; }
+.center-name.red-stroke{ font-size: clamp(40px, 10vw, 96px); -webkit-text-stroke-width: 3px; }
+.banner-text.red-stroke{ font-size: clamp(28px, 6vw, 48px); -webkit-text-stroke-width: 2px; }
+
+/* Slightly reduce stroke on very small screens */
+@media (max-width:420px){
+  .red-stroke{ -webkit-text-stroke-width: 2px; text-shadow: 0 1px 0 #000; }
+}
+
+/* styles.css — CSS movido de index.html */
+
+body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    min-height: max(884px, 100dvh);
+}
+
+.soccer-pattern {
+    background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+    background-size: 40px 40px;
+}
+
+.field-lines {
+    position: absolute;
+    inset: 0;
+    opacity: 0.1;
+    background-image: 
+        linear-gradient(to right, white 1px, transparent 1px),
+        linear-gradient(to bottom, white 1px, transparent 1px);
+    background-size: 100px 100px;
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+}
+
+@media (max-width: 520px){
+  .invite-frame{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+@media (max-width: 520px){
+  body{
+    min-height: 100dvh;
+  }
+
+  .stadium-bg{
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+}
+@media (max-width: 520px){
+  .field-center{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 8vh;
+    padding-bottom: 6vh;
+  }
+}
+@media (max-width: 520px){
+  .top-banner{
+    top: 3vh;
+  }
+
+  .center-block{
+    margin-top: -32px;
+  }
+}
+@media (max-width: 520px){
+  html, body{
+    overflow: hidden;
+  }
+  .center-block.compact {
+    gap: 60px;
+}
+
+.decor.logo {
+  width: 120px;
+  height: 120px;
+  top: 25%;
+}
+
+.decor.monogram {
+  width: 150px;
+  height: 150px;
+  top: 25%;
+}
+.top-invite{
+font-size: clamp(20px, 2vw, 40px);
+letter-spacing: 8px;
+}
+
+.center-name.red-stroke {
+    font-size: clamp(40px, 16vw, 120px);
+    -webkit-text-stroke-width: 3px;
+}
+
+}
