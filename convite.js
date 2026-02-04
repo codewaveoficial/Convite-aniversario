@@ -164,92 +164,74 @@ document.addEventListener('DOMContentLoaded', function () {
     })();
 
   // ---------- Áudio: mix crowd + hino do Flamengo com controle de volumes ----------
-  (function audioMix(){
-    const crowdEl = document.getElementById('crowd-audio');
-    const anthemEl = document.getElementById('anthem-audio');
-    const btn = document.getElementById('btn-sound');
-    if (!crowdEl) return;
+  function initAnthemAudio({
+  audioId = 'anthem-audio',
+  buttonId = 'btn-sound',
+  volume = 0.7
+} = {}) {
+  const audio = document.getElementById(audioId);
+  const btn = document.getElementById(buttonId);
 
-    // hide button by default; show only if autoplay blocked
-    if (btn) btn.classList.add('hidden');
+  if (!audio || !btn) return;
 
-    const setActiveButton = (playing) => {
-      if (!btn) return;
-      if (playing) { btn.classList.add('active'); btn.textContent = '🔊'; }
-      else { btn.classList.remove('active'); btn.textContent = '🔈'; }
-    };
+  let isPlaying = false;
+  audio.volume = volume;
 
-    let audioCtx = null;
-    let crowdSource = null, anthemSource = null;
-    let crowdGain = null, anthemGain = null, masterGain = null;
+  // botão começa escondido (só aparece se autoplay falhar)
+  btn.classList.add('hidden');
 
-    function initAudioContext(){
-      if (audioCtx) return;
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      try {
-        crowdSource = audioCtx.createMediaElementSource(crowdEl);
-        crowdGain = audioCtx.createGain();
-        crowdSource.connect(crowdGain);
-        if (anthemEl) {
-          anthemSource = audioCtx.createMediaElementSource(anthemEl);
-          anthemGain = audioCtx.createGain();
-          anthemSource.connect(anthemGain);
-        }
-        masterGain = audioCtx.createGain();
-        // set initial gains: torcida mais alta, hino mais baixo
-        crowdGain.gain.value = 0.75; // torcida mais presente
-        if (anthemGain) anthemGain.gain.value = 0.28; // hino mais baixo
-        masterGain.gain.value = 1.0;
+  const setButton = (playing) => {
+    btn.textContent = playing ? '🔊' : '🔈';
+    btn.classList.toggle('active', playing);
+  };
 
-        // connect chain
-        crowdGain.connect(masterGain);
-        if (anthemGain) anthemGain.connect(masterGain);
-        masterGain.connect(audioCtx.destination);
-      } catch (err) {
-        console.warn('WebAudio init failed, falling back to element volumes', err);
-        // fallback: set element volumes directly
-        crowdEl.volume = 0.75;
-        if (anthemEl) anthemEl.volume = 0.28;
-      }
+  /* ===== TENTATIVA DE AUTOPLAY ===== */
+  audio.play()
+    .then(() => {
+      isPlaying = true;
+      setButton(true);
+    })
+    .catch(() => {
+      // autoplay bloqueado (mobile padrão)
+      btn.classList.remove('hidden');
+    });
+
+  /* ===== PRIMEIRA INTERAÇÃO DESBLOQUEIA ===== */
+  const unlockAudio = () => {
+    if (!isPlaying) {
+      audio.play().catch(() => {});
+      isPlaying = true;
+      setButton(true);
     }
 
-    function tryPlayAll(){
-      initAudioContext();
-      const promises = [];
-      try { promises.push(crowdEl.play()); } catch (e) {}
-      if (anthemEl) try { promises.push(anthemEl.play()); } catch (e) {}
-      if (promises.length === 0) return Promise.reject();
-      return Promise.all(promises);
-    }
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+  };
 
-    // attempt autoplay; if blocked, reveal button so user can enable
-    const playAttempt = tryPlayAll();
-    if (playAttempt && playAttempt.catch) {
-      playAttempt.then(()=> setActiveButton(true)).catch(()=> { if (btn) btn.classList.remove('hidden'); });
+  document.addEventListener('click', unlockAudio);
+  document.addEventListener('touchstart', unlockAudio);
+
+  /* ===== BOTÃO MANUAL ===== */
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    if (isPlaying) {
+      audio.pause();
+      setButton(false);
     } else {
-      if (btn) btn.classList.remove('hidden');
+      audio.play().catch(() => {});
+      setButton(true);
     }
 
-    // wire up button to toggle both audios together
-    if (btn) {
-      btn.addEventListener('click', ()=>{
-        if (!audioCtx) initAudioContext();
-        // resume context if suspended
-        if (audioCtx && audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-        if (crowdEl.paused) {
-          Promise.all([crowdEl.play().catch(()=>{}), anthemEl?anthemEl.play().catch(()=>{}):Promise.resolve()]).then(()=> setActiveButton(true)).catch(()=>{});
-        } else {
-          crowdEl.pause(); if (anthemEl) anthemEl.pause(); setActiveButton(false);
-        }
-      });
-    }
+    isPlaying = !isPlaying;
+  });
+}
 
-    // keep button state synced with crowd element
-    crowdEl.addEventListener('play', ()=> setActiveButton(true));
-    crowdEl.addEventListener('pause', ()=> setActiveButton(false));
-  })();
+initAnthemAudio({
+  audioId: 'anthem-audio',
+  buttonId: 'btn-sound',
+  volume: 0.7
+});
 
   // ---------- Bola com física simples (rebate nas bordas) ----------
   (function ballPhysics(){
