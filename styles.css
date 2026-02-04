@@ -504,13 +504,13 @@ body {
 .decor.logo {
   width: 120px;
   height: 120px;
-  top: 25%;
+  top: 20%;
 }
 
 .decor.monogram {
   width: 150px;
   height: 150px;
-  top: 25%;
+  top: 20%;
 }
 .top-invite{
 font-size: clamp(20px, 2vw, 40px);
