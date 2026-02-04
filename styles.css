@@ -495,19 +495,19 @@ body {
     overflow: hidden;
   }
   .center-block.compact {
-    gap: 50px;
+    gap: 40px;
 }
 
 .decor.logo {
   width: 120px;
   height: 120px;
-  top: 20%;
+  top: 15%;
 }
 
 .decor.monogram {
   width: 150px;
   height: 150px;
-  top: 20%;
+  top: 15%;
 }
 .top-invite{
 font-size: clamp(20px, 2vw, 40px);
